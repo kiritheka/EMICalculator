@@ -1,4 +1,4 @@
-/*package try3;
+package try3;
 
 import java.util.Scanner;
 
