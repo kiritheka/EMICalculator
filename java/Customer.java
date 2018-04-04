@@ -1,10 +1,10 @@
-package try3;
+package try1;
 
 import java.util.Scanner;
 
 public class Customer {
 
-	public  int getUserChoice() {
+	public int getUserChoice() {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Choose Type of Loan");
 		System.out.println("1. Home Loan  " + "2. Personal Loan   " + "3. Car Loan");
@@ -13,9 +13,8 @@ public class Customer {
 
 	}
 
-	public  String getLoanType(int userChoice) {
+	public String getLoanType(int userChoice) {
 		String loanType;
-	
 		switch (userChoice) {
 		case 1:
 			userChoice = 1;
@@ -30,10 +29,10 @@ public class Customer {
 			loanType = "CarLoan";
 			break;
 		default:
-			loanType = "Invalid Input";
-            System.exit(1);
+			loanType = "Invalid LoanType";
+			break;
 		}
-	
+
 		return loanType;
 	}
 }
