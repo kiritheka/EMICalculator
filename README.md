@@ -38,3 +38,4 @@ Returns: number
   - setInterestRate()
 * Customer
   - getInterestRate()
+  ![Alt text](/home/linuxuser/Pictures/Screenshot from 2018-04-04 11-33-47-1.png)
