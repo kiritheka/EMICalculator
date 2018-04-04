@@ -7,7 +7,7 @@ public class Loan {
 		HOME, PERSONAL, CAR
 	}
 
-	private double interestForHome = 10.5;
+	private double interestForHome = 10.75;
 	private double interestForpersonal = 17.5;
 	private double interestForCar = 12.5;
 
