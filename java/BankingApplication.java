@@ -1,75 +1,89 @@
-package try1;
+package calculator;
 
 import java.text.NumberFormat;
+import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import calculator.Loan.LoanType;
 
 public class BankingApplication {
 
+	enum UserChoice {
+		ADMIN, CUSTOMER, STOP
+	}
+
 	public static void main(String args[]) {
-		LoanCalculator loanCalculator = new LoanCalculator();
-		Admin bankAdmin = new Admin();
-		Customer customer = new Customer();
 
-		Scanner scan = new Scanner(System.in);
-		System.out.println("1.Admin " + "  2.User");
-		int UserOrAdmin = scan.nextInt();
+		Loan loan = new Loan();
+		NumberFormat nf = NumberFormat.getInstance();
 
-		if (UserOrAdmin == 1) {
-			int adminChoice = bankAdmin.getAdminChoice();
-			int statusChoice = bankAdmin.viewOrChangeChoice();
-			bankAdmin.getandShowInterestRate(adminChoice, statusChoice);
-		} else if(UserOrAdmin == 2) {
-			int loanAmount;
-			int loanTerm = 0;
-			double interestRate;
-			
-			int userChoice = customer.getUserChoice();
-			String loanType = customer.getLoanType(userChoice);
-			if (loanType == "HomeLoan") {
-				interestRate = loanCalculator.getInterestForHome();
-			} else if (loanType == "PersonalLoan") {
-				interestRate = loanCalculator.getInterestForpersonal();
-			} else {
-				interestRate = loanCalculator.getInterestForCar();
-			}
-			NumberFormat nf = NumberFormat.getInstance();
-
+		String choice = "";
+		while (!choice.toUpperCase().equals(UserChoice.STOP)) {
 			try {
-				System.out.println("Enter the loan amount");
-				loanAmount = scan.nextInt();
+				Scanner scan = new Scanner(System.in);
+				System.out.println("Admin " + " Customer " + " Stop");
+				choice = scan.next();
+				UserChoice userOrAdmin = UserChoice.valueOf(choice.toUpperCase());
 
-				while (loanTerm == 0) {
-					System.out.println("1.loan term in year " + "  2.loan term in month");
-					int input = scan.nextInt();
-					if (input == 1) {
-						System.out.println("Enter the loan term in year");
-						loanTerm = scan.nextInt();
-						loanTerm = loanTerm * 12;
-					} else if (input == 2) {
-						System.out.println("Enter the loan term in month");
-						loanTerm = scan.nextInt();
+				if (userOrAdmin == UserChoice.ADMIN) {
+					System.out.println("Enter the Type of Loan");
+					System.out.println(" Home " + " Personal " + " Car");
+					LoanType loantype = LoanType.valueOf((scan.next()).toUpperCase());
+
+					System.out.println("ViewInterest " + "ChangeInterest");
+					String adminChoice = scan.next();
+
+					if (adminChoice.equalsIgnoreCase("ViewInterest")) {
+						double interestRate = loan.getInterestRate(loantype);
+						System.out.println(loantype + " Loan Current Interest Rate is  " + interestRate);
+
+					} else if (adminChoice.equalsIgnoreCase("ChangeInterest")) {
+						System.out.println("Enter the Interest Rate");
+						double newInterest = scan.nextDouble();
+						double interestRate = loan.setInterestRate(loantype, newInterest);
+						System.out.println(loantype + "Loan New Interest Rate is  " + interestRate);
 					} else {
-						System.out.println("Invalid input");
-						continue;
+						System.out.println("You can either view Or Change Interest Rate");
 					}
+
+				} else if (userOrAdmin == UserChoice.CUSTOMER) {
+
+					System.out.println("Enter the type of Loan");
+					System.out.println(" Home " + " Personal " + " Car");
+					LoanType loantype = LoanType.valueOf((scan.next()).toUpperCase());
+					try {
+						System.out.println("Enter the Loan amount");
+						int loanAmount = scan.nextInt();
+
+						System.out.println("Enter the Loan term in Months");
+						int loanTerm = scan.nextInt();
+
+						double interestRate = loan.getInterestRate(loantype);
+						System.out.println("Interest Rate is" + interestRate);
+
+						int Emi = loan.getEMI(loanAmount, loanTerm, interestRate);
+						System.out.println("EMI is " + nf.format(Emi));
+
+						int amountPayable = loan.getAmountPayable(loanTerm, Emi);
+						System.out.println("Total amount Payable is " + nf.format(amountPayable));
+
+						int interestTowardsLoan = loan.getinterestTowardsLoan(loanTerm, Emi, loanAmount);
+						System.out.println("Interest towards loan " + nf.format(interestTowardsLoan));
+
+					} catch (InputMismatchException e1) {
+						System.out.println("Enter a Correct Value " + e1);
+
+					}
+				} else {
+					System.out.println("Operation Ended..");
+					break;
 				}
-
-				int Emi = loanCalculator.getEMI(loanAmount, loanTerm, interestRate);
-				System.out.println("EMI is " + nf.format(Emi));
-
-				int amountPayable = loanCalculator.getAmountPayable(loanTerm, Emi);
-				System.out.println("Total amount Payable is " + nf.format(amountPayable));
-
-				int interestTowardsLoan = loanCalculator.getinterestTowardsLoan(loanTerm, Emi, loanAmount);
-				System.out.println("Interest towards loan " + nf.format(interestTowardsLoan));
-
-			} catch (Exception e) {
-				System.out.println("Invalid format ..Please enter proper value " + e);
+			} catch (IllegalArgumentException e) {
+				System.out.println("Enter a proper value ");
+			} catch (InputMismatchException e1) {
+				System.out.println("Enter a Number Value");
 			}
 
-		}else {
-			System.out.println("Invalid user type...enter Admin or User");
 		}
-
 	}
 }

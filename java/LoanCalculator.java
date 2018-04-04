@@ -1,52 +1,36 @@
-package try1;
+package calculator;
 
 public class LoanCalculator {
 
-	private double interestForHome=10.5;
-	private double interestForpersonal=17.5;
-	private double interestForCar=12.5;
-	
-	public void setInterestForHome(double interestForHome) {
-		this.interestForHome = interestForHome;
-	}
-	public double getInterestForHome() {
-		return interestForHome;
-	}
+	/*public int getEMI(int loanAmount, int loanTerm, double interestRate) {
 
-	public double getInterestForpersonal() {
-		return interestForpersonal;
+		if (loanTerm <= 0 || loanAmount <= 0) {
+			return 0;
+		} else {
+			interestRate = interestRate / 12 / 100;
+			double monthlyEMI = loanAmount * interestRate
+					* ((Math.pow((1 + interestRate), loanTerm) / (Math.pow((1 + interestRate), loanTerm) - 1)));
+			int EMI = (int) Math.round(monthlyEMI);
+			return EMI;
+		}
 	}
 
-	public void setInterestForpersonal(double interestForpersonal) {
-		this.interestForpersonal = interestForpersonal;
+	public int getAmountPayable(int loanTerm, int EMI) {
+		if (loanTerm <= 0 || EMI <= 0) {
+			return 0;
+		} else {
+			int amountPayable = EMI * loanTerm;
+			return amountPayable;
+		}
 	}
 
-	public double getInterestForCar() {
-		return interestForCar;
-	}
+	public int getinterestTowardsLoan(int loanTerm, int EMI, int loanAmount) {
 
-	public void setInterestForCar(double interestForCar) {
-		this.interestForCar = interestForCar;
-	}
-	
-	
-	public int getEMI(int loanAmount, int loanTerm, double interestRate) {
-
-		interestRate = interestRate / 12 / 100;
-		double monthlyEMI = loanAmount * interestRate* ((Math.pow((1 + interestRate), loanTerm) / (Math.pow((1 + interestRate), loanTerm) - 1)));
-
-		int roundoff = (int) Math.round(monthlyEMI);
-		return roundoff;
-	}
-
-	public int getAmountPayable(int loanTerm, int roundoff) {
-		int amountPayable = roundoff * loanTerm;
-		return amountPayable;
-
-	}
-
-	public int getinterestTowardsLoan(int loanTerm, int roundoff, int loanAmount) {
-		int interestTowardsLoan = (roundoff * loanTerm) - (loanAmount);
-		return interestTowardsLoan;
-	}
+		if (loanTerm <= 0 || loanAmount <= 0 || EMI <= 0) {
+			return 0;
+		} else {
+			int interestTowardsLoan = (EMI * loanTerm) - (loanAmount);
+			return interestTowardsLoan;
+		}
+	}*/
 }
